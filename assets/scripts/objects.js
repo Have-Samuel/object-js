@@ -7,7 +7,9 @@ const person = {
   }
 };
 
-person.age = 35;
+// person.age = 35;
+
+delete person.age;
 person.isAdmin = true;
 
 console.log(person);
