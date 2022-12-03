@@ -1,29 +1,46 @@
-const movieList = document.getElementById('movie-list');
+const addMovieBtn = document.getElementById('add-movie-btn')
+const searchBtn = document.getElementById('search-btn')
 
-movieList.style['background-color'] = 'green';
-movieList.style.display = 'block';
+const movies = [];
 
-const anyVariableFromTheUser = 'level';
+const renderMovie = () => {
+  const movieList = document.getElementById('movie-list');
+  if (movies.length === 0) {
+    movieList.classList.remove('visible');
+    return;
+  } else {
+    movieList.classList.add('visible');
+  }
+  movieList.innerHTML = '';
 
-let person = {
-  'first name': 'Have',
-  age: 30,
-  hobbies: ['Gym', 'Swmming'],
-  [anyVariableFromTheUser]: '...', // can be used
-  greet: function () {
-    alert('Hey There!');
-  },
-  5.8: 'Hello',
+  movies.forEach((movie) => {
+    const movieEl = document.createElement('li');
+    movieEl.textContent = movie.info.title;
+    movieList.appendChild(movieEl);
+  });
 };
 
-// person.age = 35;
-// person.age = null means that
-// later you will set age to some value
-delete person.age;
-person.isAdmin = true;
-// Dynamic Property Access
-const keyName = 'first name';
+const addMovieHandler = () => {
+  const title = document.getElementById('title').value;
+  const extraName = document.getElementById('extra-name').value;
+  const extraValue = document.getElementById('extra-value').value;
 
-console.log(person[keyName]);
-console.log(person[5.8]);
-console.log(person);
+  if (title.trim() === ''
+  || extraName.trim() === ''
+  || extraValue.trim() === '') {
+    return;
+  }
+
+  const newMovie = {
+    info: {
+      title,
+      [extraName]: extraValue,
+    },
+    id: Math.random(),
+  };
+
+  movies.push(newMovie);
+  renderMovie();
+};
+
+addMovieBtn.addEventListener('click', addMovieHandler);
